@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 
 import com.kbaez.challange.controller.ChallengeController;
 import com.kbaez.challange.dto.PositionDTO;
-import com.kbaez.challange.model.Position;
 import com.kbaez.challange.service.IntelligenceService;
 
 public class ChallengeControllerImpl implements ChallengeController{
