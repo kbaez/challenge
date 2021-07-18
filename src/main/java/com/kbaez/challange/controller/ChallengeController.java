@@ -3,19 +3,16 @@ package com.kbaez.challange.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
-import com.kbaez.challange.dto.PositionDTO;
+import com.kbaez.challange.dto.response.PositionMessageResponse;
 
-@RestController
-@RequestMapping("/quasar")
 public interface ChallengeController {
 
-	@GetMapping("/location")
-	ResponseEntity<PositionDTO> getLocation(float distance);
+	@PostMapping("/topsecret")
+	ResponseEntity<PositionMessageResponse> getLocationAndMessage(@RequestBody String request);
 	
-	@GetMapping("/message")
+	@PostMapping("/topsecret_split/{satellite_name}")
 	String getMessage(List<String> listMessages);
 }

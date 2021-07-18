@@ -1,9 +1,6 @@
 package com.kbaez.challange.dto.response;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.kbaez.challange.dto.LocationDTO;
 
 public class PositionMessageResponse {
 

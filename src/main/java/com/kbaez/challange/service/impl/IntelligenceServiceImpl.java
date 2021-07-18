@@ -3,10 +3,11 @@ package com.kbaez.challange.service.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import com.kbaez.challange.config.prop.MainProperties;
 import com.kbaez.challange.exception.ConflictException;
 import com.kbaez.challange.model.Location;
 import com.kbaez.challange.model.Satellite;
@@ -14,17 +15,29 @@ import com.kbaez.challange.model.SatelliteLocation;
 import com.kbaez.challange.service.IntelligenceService;
 import com.kbaez.challange.utils.LocationUtil;
 
+@Service
 public class IntelligenceServiceImpl implements IntelligenceService {
 
-	private MainProperties config;
+//	private MainProperties config;
 	
 	@Autowired
 	private LocationUtil locationUtil;
 
 	@Override
-	public String getMessage(List<String> listMessages) {
-		// TODO Auto-generated method stub
-		return null;
+	public String getMessage(List<Satellite> satellites) {
+		List<String[]> messages = satellites.stream().map(s -> s.getMessage()).collect(Collectors.toList());
+		String completedMessage = null;
+		int i = 0;
+		
+		for(String [] message : messages) {
+			if(i < message.length) {
+				if(!message[i].isEmpty()) {
+					completedMessage = completedMessage + message[i];
+				}
+				i++;
+			}
+		}
+		return completedMessage;
 	}
 
 	@Override
@@ -37,7 +50,7 @@ public class IntelligenceServiceImpl implements IntelligenceService {
 	}
 	
 	private List<Satellite> getSatellites(){
-
+		// levantar desde un archivo
 		Satellite satelliteKenobi = new Satellite(Satellite.KENOBI);
 		Satellite satelliteSkywalker = new Satellite(Satellite.SKYWALKER);
 		Satellite satelliteSato = new Satellite(Satellite.SATO);
@@ -58,9 +71,9 @@ public class IntelligenceServiceImpl implements IntelligenceService {
 		locationUtil.validateSatelites(satelites);
 		locationUtil.validateDistances(distances);
 
-		Satellite satelliteKenobi = getSatelite(satelites, Satellite.KENOBI);
-		Satellite satelliteSkywalker = getSatelite(satelites, Satellite.SKYWALKER);
-		Satellite satelliteSato = getSatelite(satelites, Satellite.SATO);
+		Satellite satelliteKenobi = getSatellite(satelites, Satellite.KENOBI);
+		Satellite satelliteSkywalker = getSatellite(satelites, Satellite.SKYWALKER);
+		Satellite satelliteSato = getSatellite(satelites, Satellite.SATO);
 
 		float distanceSatelliteKenobi = distances[0];
 		float distanceSatelliteSkywalker = distances[1];
@@ -80,9 +93,9 @@ public class IntelligenceServiceImpl implements IntelligenceService {
 		locationUtil.validateSatelites(satelites);
 		locationUtil.validateDistances(distances);
 
-		Satellite satelliteKenobi = getSatelite(satelites, Satellite.KENOBI);
-		Satellite satelliteSkywalker = getSatelite(satelites, Satellite.SKYWALKER);
-		Satellite satelliteSato = getSatelite(satelites, Satellite.SATO);
+		Satellite satelliteKenobi = getSatellite(satelites, Satellite.KENOBI);
+		Satellite satelliteSkywalker = getSatellite(satelites, Satellite.SKYWALKER);
+		Satellite satelliteSato = getSatellite(satelites, Satellite.SATO);
 
 		float distanceSatelliteKenobi = distances[0];
 		float distanceSatelliteSkywalker = distances[1];
@@ -97,7 +110,7 @@ public class IntelligenceServiceImpl implements IntelligenceService {
 		return calculateYPositionUsingTrilateration(datosKenobi, datosSkywalker, x);
 	}
 	
-	private Satellite getSatelite(List<Satellite> satelites, String name) {
+	private Satellite getSatellite(List<Satellite> satelites, String name) {
 		return satelites.stream().filter(s -> s.getName().equals(name)).findFirst().orElse(null);
 	}
 	
