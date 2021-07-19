@@ -12,5 +12,7 @@ public interface IntelligenceService {
 
 	String getMessage(List<Satellite> satellites);
 
-	Location getLocation(float[] distances) throws ConflictException;
+	float[] getLocation(float[] distances) throws ConflictException;
+
+	void getSatellites();
 }

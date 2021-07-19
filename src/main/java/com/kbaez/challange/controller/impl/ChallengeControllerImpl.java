@@ -1,17 +1,19 @@
 package com.kbaez.challange.controller.impl;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kbaez.challange.dto.response.PositionMessageResponse;
+import com.kbaez.challange.dto.PositionMessageResponse;
+import com.kbaez.challange.dto.request.TopSecretRequest;
+import com.kbaez.challange.exception.ConflictException;
+import com.kbaez.challange.model.Location;
 import com.kbaez.challange.model.Satellite;
 import com.kbaez.challange.service.IntelligenceService;
 
@@ -22,32 +24,23 @@ public class ChallengeControllerImpl{
 	private IntelligenceService intelligenceService;
 
 	@PostMapping("/topsecret")
-	public ResponseEntity<PositionMessageResponse> getLocationAndMessage(@RequestBody String request) {
-		// Converting jsonData string into JSON object
-		JSONObject jsnobject = new JSONObject(request);
-
-		// Getting languages JSON array from the JSON object
-		JSONArray jsonArray = jsnobject.getJSONArray("satellites");
-
-		ArrayList<Satellite> listdata = new ArrayList<Satellite>();  
+	public ResponseEntity<PositionMessageResponse> getLocationAndMessage(@RequestBody TopSecretRequest request) throws ConflictException {
+		int i = 0;
+		float [] distances = new float[request.getSatellites().size()];
 		
-		if (jsonArray != null) {
-
-			// Iterating JSON array
-			for (int i = 0; i < jsonArray.length(); i++) {
-
-				// Adding each element of JSON array into ArrayList
-				listdata.add((Satellite) jsonArray.get(i));
-			}
+		for(Satellite s : request.getSatellites()) {
+			distances[i] = s.getDistance();
+			i++;
 		}
-		// Iterating ArrayList to print each element
+	
+		float [] points = intelligenceService.getLocation(distances);
+		Location location = new Location(points[0], points[1]);
+		String message = intelligenceService.getMessage(request.getSatellites());
+		PositionMessageResponse response = new PositionMessageResponse();
+		response.setLocation(location);
+		response.setMessage(message);
 
-		System.out.println("Each element of ArrayList");
-		for (int i = 0; i < listdata.size(); i++) {
-			// Printing each element of ArrayList
-			System.out.println(listdata.get(i));
-		}
-		return null;
+		return new ResponseEntity<PositionMessageResponse>(response, HttpStatus.OK);
 
 	}
 
