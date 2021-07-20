@@ -5,9 +5,13 @@ import java.util.Objects;
 import javax.validation.constraints.PositiveOrZero;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Satellite {
@@ -23,25 +27,13 @@ public class Satellite {
 
 	private String[] message;
 	
-	private SatelliteLocation location;
+	private Location location;
+
+	public Satellite() {
+	}
 	
 	public Satellite(String name) {
 		this.name = name;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
-		Satellite satellite = (Satellite) o;
-		return name.equals(satellite.name);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(name);
 	}
 
 	public Float getDistance() {
@@ -68,11 +60,26 @@ public class Satellite {
 		this.message = message;
 	}
 
-	public SatelliteLocation getLocation() {
+	public Location getLocation() {
 		return location;
 	}
 
-	public void setLocation(SatelliteLocation location) {
+	public void setLocation(Location location) {
 		this.location = location;
-	}	
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		Satellite satellite = (Satellite) o;
+		return name.equals(satellite.name);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(name);
+	}
 }

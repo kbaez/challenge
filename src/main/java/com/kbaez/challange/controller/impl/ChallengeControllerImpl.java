@@ -1,7 +1,7 @@
 package com.kbaez.challange.controller.impl;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kbaez.challange.dto.PositionMessageResponse;
 import com.kbaez.challange.dto.request.TopSecretRequest;
 import com.kbaez.challange.exception.ConflictException;
+import com.kbaez.challange.exception.NotFoundException;
 import com.kbaez.challange.model.Location;
 import com.kbaez.challange.model.Satellite;
 import com.kbaez.challange.service.IntelligenceService;
@@ -24,7 +25,7 @@ public class ChallengeControllerImpl{
 	private IntelligenceService intelligenceService;
 
 	@PostMapping("/topsecret")
-	public ResponseEntity<PositionMessageResponse> getLocationAndMessage(@RequestBody TopSecretRequest request) throws ConflictException {
+	public ResponseEntity<PositionMessageResponse> getLocationAndMessage(@RequestBody TopSecretRequest request) throws ConflictException, NotFoundException {
 		int i = 0;
 		float [] distances = new float[request.getSatellites().size()];
 		
@@ -35,7 +36,9 @@ public class ChallengeControllerImpl{
 	
 		float [] points = intelligenceService.getLocation(distances);
 		Location location = new Location(points[0], points[1]);
-		String message = intelligenceService.getMessage(request.getSatellites());
+		
+		List<String[]> messages = request.getSatellites().stream().map(s -> s.getMessage()).collect(Collectors.toList());
+		String message = intelligenceService.getMessage(messages);
 		PositionMessageResponse response = new PositionMessageResponse();
 		response.setLocation(location);
 		response.setMessage(message);
