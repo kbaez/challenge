@@ -2,23 +2,25 @@ package com.kbaez.challange.model;
 
 import java.util.Objects;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.PositiveOrZero;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "satellite")
+@Accessors(chain = true)
 public class Satellite {
-	
-	public static final String KENOBI = "KENOBI";
-	public static final String SKYWALKER = "SKYWALKER";
-	public static final String SATO = "SATO";
 
 	@PositiveOrZero(message = "distance can't be smaller than the 0")
 	private Float distance;
@@ -29,44 +31,44 @@ public class Satellite {
 	
 	private Location location;
 
-	public Satellite() {
-	}
-	
-	public Satellite(String name) {
-		this.name = name;
-	}
-
-	public Float getDistance() {
-		return distance;
-	}
-
-	public void setDistance(Float distance) {
-		this.distance = distance;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String[] getMessage() {
-		return message;
-	}
-
-	public void setMessage(String[] message) {
-		this.message = message;
-	}
-
-	public Location getLocation() {
-		return location;
-	}
-
-	public void setLocation(Location location) {
-		this.location = location;
-	}
+//	public Satellite() {
+//	}
+//	
+//	public Satellite(String name) {
+//		this.name = name;
+//	}
+//
+//	public Float getDistance() {
+//		return distance;
+//	}
+//
+//	public void setDistance(Float distance) {
+//		this.distance = distance;
+//	}
+//
+//	public String getName() {
+//		return name;
+//	}
+//
+//	public void setName(String name) {
+//		this.name = name;
+//	}
+//
+//	public String[] getMessage() {
+//		return message;
+//	}
+//
+//	public void setMessage(String[] message) {
+//		this.message = message;
+//	}
+//
+//	public Location getLocation() {
+//		return location;
+//	}
+//
+//	public void setLocation(Location location) {
+//		this.location = location;
+//	}
 
 	@Override
 	public boolean equals(Object o) {

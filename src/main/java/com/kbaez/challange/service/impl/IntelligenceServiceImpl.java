@@ -19,8 +19,6 @@ import com.lemmingapex.trilateration.TrilaterationFunction;
 @Service
 public class IntelligenceServiceImpl implements IntelligenceService {
 
-//	private MainProperties config;
-
 	public static List<Satellite> satellites;
 
 	@Autowired
