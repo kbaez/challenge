@@ -14,9 +14,13 @@ public class SatelliteServiceImpl implements SatelliteService{
 	@Autowired
 	private SatelliteRepository repository;
 
+	public SatelliteServiceImpl(SatelliteRepository satelliteRepository) {
+		this.repository = satelliteRepository;
+	}
+
 	@Override
-	public Satellite getSatelliteByName(String name) throws NoContentException{
-		//return repository.findByName(name).orElseThrow(() -> new NoContentException("No se ha encontrado un satelite con id: " + id));
+	public Satellite getSatelliteByName(String name){
+		//return repository.findByName(name).orElseThrow(() -> new NoContentException("No se ha encontrado un satelite con nombre: " + name));
 		return repository.findByName(name);
 	}
 

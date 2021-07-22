@@ -1,19 +1,18 @@
 package com.kbaez.challange.service;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
+import com.kbaez.challange.dto.PositionMessageResponse;
+import com.kbaez.challange.dto.request.TopSecretRequest;
+import com.kbaez.challange.dto.request.TopSecretSplitRequest;
 import com.kbaez.challange.exception.ConflictException;
+import com.kbaez.challange.exception.NoContentException;
 import com.kbaez.challange.exception.NotFoundException;
-import com.kbaez.challange.model.Location;
-import com.kbaez.challange.model.Satellite;
 
 public interface IntelligenceService {
 
-	String getMessage(List<String[]> messages) throws NotFoundException;
+	PositionMessageResponse saveSatellite(String satelliteName, TopSecretSplitRequest request)
+			throws NoContentException;
+	
+	PositionMessageResponse getLocationAndMessage(TopSecretRequest request) throws NotFoundException, ConflictException;
 
-	float[] getLocation(float[] distances) throws ConflictException;
-
-//	void getSatellites();
+	PositionMessageResponse getLocationAndMessageSplit();
 }

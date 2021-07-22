@@ -1,33 +1,106 @@
 package com.kbaez.challange.service.impl;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.math3.fitting.leastsquares.LevenbergMarquardtOptimizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kbaez.challange.dto.PositionMessageResponse;
+import com.kbaez.challange.dto.request.TopSecretRequest;
+import com.kbaez.challange.dto.request.TopSecretSplitRequest;
 import com.kbaez.challange.exception.ConflictException;
+import com.kbaez.challange.exception.NoContentException;
 import com.kbaez.challange.exception.NotFoundException;
+import com.kbaez.challange.model.Location;
 import com.kbaez.challange.model.Satellite;
-import com.kbaez.challange.model.SatelliteLocation;
 import com.kbaez.challange.service.IntelligenceService;
+import com.kbaez.challange.service.SatelliteService;
 import com.kbaez.challange.utils.LocationUtil;
 import com.lemmingapex.trilateration.NonLinearLeastSquaresSolver;
 import com.lemmingapex.trilateration.TrilaterationFunction;
+import java.util.stream.Collectors;
 
 @Service
 public class IntelligenceServiceImpl implements IntelligenceService {
 
 	public static List<Satellite> satellites;
-
-	@Autowired
-	private LocationUtil locationUtil;
 	
 	private static final String ESPACIO = " ";
 
+//	@Autowired
+//	private LocationUtil locationUtil;
+	
+	@Autowired
+	private SatelliteService satelliteService;
+	
+	public IntelligenceServiceImpl(SatelliteService satelliteServiceTest) {
+		this.satelliteService = satelliteServiceTest;
+	}
+
 	@Override
-	public String getMessage(List<String[]> messages) throws NotFoundException {
+	public PositionMessageResponse getLocationAndMessage(TopSecretRequest request) throws NotFoundException, ConflictException {
+		int i = 0;
+		float[] distances = new float[request.getSatellites().size()];
+
+		for (Satellite s : request.getSatellites()) {
+			distances[i] = s.getDistance();
+			i++;
+		}
+
+		float[] points = getLocation(distances);
+		Location location = new Location(points[0], points[1]);
+
+		List<String[]> messages = request.getSatellites().stream().map(s -> s.getMessage())
+				.collect(Collectors.toList());
+		String message = getMessage(messages);
+		PositionMessageResponse positionMessageResponse = new PositionMessageResponse();
+		positionMessageResponse.setLocation(location);
+		positionMessageResponse.setMessage(message);
+		
+		return positionMessageResponse;
+	}
+	
+	@Override
+	public PositionMessageResponse saveSatellite(String satelliteName, TopSecretSplitRequest request) throws NoContentException {
+		Satellite satellite = satelliteService.getSatelliteByName(satelliteName);
+		satellite.setDistance(request.getDistance());
+		satellite.setMessage(request.getMessage());
+		
+		Satellite satelliteSaved = satelliteService.saveOrUpdateSatellite(satellite);
+		PositionMessageResponse positionMessageResponse = new PositionMessageResponse();
+		positionMessageResponse.setLocation(satelliteSaved.getLocation());
+		positionMessageResponse.setMessage(satelliteSaved.getMessage().toString());
+		
+		return positionMessageResponse;
+	}
+
+	@Override
+	public PositionMessageResponse getLocationAndMessageSplit() {
+		
+		return null;
+//		int i = 0;
+//		float[] distances = new float[request.getSatellites().size()];
+//
+//		for (Satellite s : request.getSatellites()) {
+//			distances[i] = s.getDistance();
+//			i++;
+//		}
+//
+//		float[] points = getLocation(distances);
+//		Location location = new Location(points[0], points[1]);
+//
+//		List<String[]> messages = request.getSatellites().stream().map(s -> s.getMessage())
+//				.collect(Collectors.toList());
+//		String message = getMessage(messages);
+//		PositionMessageResponse positionMessageResponse = new PositionMessageResponse();
+//		positionMessageResponse.setLocation(location);
+//		positionMessageResponse.setMessage(message);
+//		
+//		return positionMessageResponse;
+	}
+	
+	private String getMessage(List<String[]> messages) throws NotFoundException {
 
 		String[] message1 = messages.get(0);
 		String[] message2 = messages.get(1);
@@ -66,8 +139,8 @@ public class IntelligenceServiceImpl implements IntelligenceService {
 		return completedMessage.toString();
 	}
 
-	@Override
-	public float[] getLocation(float[] distances) throws ConflictException {
+	
+	private float[] getLocation(float[] distances) throws ConflictException {
 		double[][] positions = new double[3][2];
 
 		positions[0][0] = -500;
@@ -92,26 +165,9 @@ public class IntelligenceServiceImpl implements IntelligenceService {
 		location[1] = (float) result[1];
 		return location;
 	}
-
-//	@Override
-//	public void getSatellites() {
-//		// levantar desde un archivo
-//		Satellite satelliteKenobi = new Satellite(Satellite.KENOBI);
-//		Satellite satelliteSkywalker = new Satellite(Satellite.SKYWALKER);
-//		Satellite satelliteSato = new Satellite(Satellite.SATO);
-//
-//		SatelliteLocation satelliteLocationKenobi = new SatelliteLocation(-500, -200);
-//		SatelliteLocation satelliteLocationSkywalker = new SatelliteLocation(100, -100);
-//		SatelliteLocation satelliteLocationSato = new SatelliteLocation(500, 100);
-//
-//		satelliteKenobi.setLocation(satelliteLocationKenobi);
-//		satelliteSkywalker.setLocation(satelliteLocationSkywalker);
-//		satelliteSato.setLocation(satelliteLocationSato);
-//
-//		satellites = (Arrays.asList(satelliteKenobi, satelliteSkywalker, satelliteSato));
-//	}
-	
+		
 	private boolean isLastPartOfMessage(int messageLength, int i) {
 		return i == messageLength-1;
 	}
+
 }
