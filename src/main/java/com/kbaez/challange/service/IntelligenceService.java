@@ -14,5 +14,5 @@ public interface IntelligenceService {
 	
 	PositionMessageResponse getLocationAndMessage(TopSecretRequest request) throws NotFoundException, ConflictException;
 
-	PositionMessageResponse getLocationAndMessageSplit();
+//	PositionMessageResponse getLocationAndMessageSplit();
 }

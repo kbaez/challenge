@@ -72,10 +72,10 @@ public class IntelligenceServiceImpl implements IntelligenceService {
 		return positionMessageResponse;
 	}
 
-	@Override
-	public PositionMessageResponse getLocationAndMessageSplit() {
-		
-		return null;
+//	@Override
+//	public PositionMessageResponse getLocationAndMessageSplit() {
+//		
+//		return null;
 //		int i = 0;
 //		float[] distances = new float[request.getSatellites().size()];
 //
@@ -95,7 +95,7 @@ public class IntelligenceServiceImpl implements IntelligenceService {
 //		positionMessageResponse.setMessage(message);
 //		
 //		return positionMessageResponse;
-	}
+//	}
 	
 	private String getMessage(List<String[]> messages) throws NotFoundException {
 
