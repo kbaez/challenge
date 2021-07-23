@@ -40,17 +40,17 @@ public class ChallengeControllerImpl {
 			@RequestBody TopSecretSplitRequest request)
 			throws ConflictException, NotFoundException, NoContentException {
 		
-		intelligenceService.saveSatellite(satelliteName, request);
-		
-		return new ResponseEntity<>(null, HttpStatus.OK);
-	}
-
-	@GetMapping("/topsecret_split/")
-	public ResponseEntity<PositionMessageResponse> getLocationAndMessageSplit()
-			throws ConflictException, NotFoundException, NoContentException {
-		
-		PositionMessageResponse response = intelligenceService.getLocationAndMessageSplit();
+		PositionMessageResponse response = intelligenceService.saveSatellite(satelliteName, request);
 		
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
+
+//	@GetMapping("/topsecret_split/")
+//	public ResponseEntity<PositionMessageResponse> getLocationAndMessageSplit()
+//			throws ConflictException, NotFoundException, NoContentException {
+//		
+//		PositionMessageResponse response = intelligenceService.getLocationAndMessageSplit();
+//		
+//		return new ResponseEntity<>(response, HttpStatus.OK);
+//	}
 }

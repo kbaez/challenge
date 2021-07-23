@@ -31,6 +31,8 @@ public class IntelligenceServiceTest {
 //	private LocationUtil locationUtil;
 	private SatelliteRepository satelliteRepository;
 	private IntelligenceService intelligenceService;
+	private static final String KENOBI = "kenobi";
+	private static final String SKYWALKER = "skywalker";
 	private static final String SATO = "sato";
 
 	@BeforeEach
@@ -84,21 +86,24 @@ public class IntelligenceServiceTest {
 		List<Satellite> list = new ArrayList<>();
 		Satellite s1 = new Satellite();
 		s1.setDistance(100.0f);
-		s1.setLocation(new Location(-500, -200));
+		s1.setX(-500f);
+		s1.setY(-200f);
 		s1.setMessage(new String[] { "este", "", "", "mensaje", "" });
-		s1.setName("kenobi");
+		s1.setName(KENOBI);
 
 		Satellite s2 = new Satellite();
 		s2.setDistance(115.5f);
-		s2.setLocation(new Location(100, -100));
+		s2.setX(100f);
+		s2.setY(-100f);
 		s2.setMessage(new String[] { "", "es", "", "", "secreto" });
-		s2.setName("skywalker");
+		s2.setName(SKYWALKER);
 
 		Satellite s3 = new Satellite();
 		s3.setDistance(142.7f);
-		s3.setLocation(new Location(500, 100));
+		s3.setX(500f);
+		s3.setY(100f);
 		s3.setMessage(new String[] { "este", "", "un", "", "" });
-		s3.setName("sato");
+		s3.setName(SATO);
 
 		list.add(s1);
 		list.add(s2);

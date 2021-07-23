@@ -2,7 +2,11 @@ package com.kbaez.challange.model;
 
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.PositiveOrZero;
 
@@ -18,9 +22,13 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "satellite")
+@Table(name = "satellites")
 @Accessors(chain = true)
 public class Satellite {
+	
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
 	@PositiveOrZero(message = "distance can't be smaller than the 0")
 	private Float distance;
@@ -28,8 +36,10 @@ public class Satellite {
 	private String name;
 
 	private String[] message;
-	
-	private Location location;
+
+	private Float x;
+
+	private Float y;
 
 //	public Satellite() {
 //	}

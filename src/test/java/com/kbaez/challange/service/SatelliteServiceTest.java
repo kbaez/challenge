@@ -41,7 +41,8 @@ public class SatelliteServiceTest {
 	private Satellite buildNewSatellite() {
 		Satellite expectedSatelite = new Satellite();
 		expectedSatelite.setName("Sato");
-		expectedSatelite.setLocation(new Location(500, 100));
+		expectedSatelite.setX(500f);
+		expectedSatelite.setY(100f);
 		expectedSatelite.setMessage(new String[]{"","","es","","mensaje"});
 		expectedSatelite.setDistance(null);
 		return expectedSatelite;

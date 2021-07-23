@@ -27,9 +27,6 @@ public class IntelligenceServiceImpl implements IntelligenceService {
 	public static List<Satellite> satellites;
 	
 	private static final String ESPACIO = " ";
-
-//	@Autowired
-//	private LocationUtil locationUtil;
 	
 	@Autowired
 	private SatelliteService satelliteService;
@@ -69,8 +66,8 @@ public class IntelligenceServiceImpl implements IntelligenceService {
 		
 		Satellite satelliteSaved = satelliteService.saveOrUpdateSatellite(satellite);
 		PositionMessageResponse positionMessageResponse = new PositionMessageResponse();
-		positionMessageResponse.setLocation(satelliteSaved.getLocation());
-		positionMessageResponse.setMessage(satelliteSaved.getMessage().toString());
+		positionMessageResponse.setLocation(new Location(satelliteSaved.getX(), satelliteSaved.getY()));
+		positionMessageResponse.setMessage(String.join(" ",satelliteSaved.getMessage()));
 		
 		return positionMessageResponse;
 	}
