@@ -2,6 +2,8 @@ package com.kbaez.challange.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -24,7 +26,7 @@ public class SatelliteServiceTest {
 	
 	@Test
 	public void testGetByNameThenReturnSameSatellite(){
-		Satellite expectedSatelite = buildNewSatellite();
+		Optional<Satellite> expectedSatelite = Optional.of(buildNewSatellite());
 		Mockito.when(satelliteRepository.findByName(Mockito.any())).thenReturn(expectedSatelite);
 		Satellite response = satelliteService.getSatelliteByName("Sato");
 		assertEquals(expectedSatelite, response);

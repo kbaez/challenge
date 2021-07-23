@@ -1,5 +1,7 @@
 package com.kbaez.challange.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,6 +12,6 @@ public interface SatelliteRepository extends CrudRepository<Satellite, Long> {
 
 	Satellite save(Satellite satellite);
 
-	Satellite findByName(String name);
+	Optional<Satellite> findByName(String name);
 
 }
