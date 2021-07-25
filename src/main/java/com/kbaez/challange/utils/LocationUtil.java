@@ -10,7 +10,7 @@ import com.kbaez.challange.model.Satellite;
 @Component
 public class LocationUtil {
 
-	public void validateDistances(float[] distances) throws ConflictException {
+	public void validateDistances(float[] distances) {
 		if (distances == null) {
 			throw new ConflictException("Error. La cantidad de distancias es vacia");
 		}
@@ -19,7 +19,7 @@ public class LocationUtil {
 		}
 	}
 
-	public void validateSatelites(List<Satellite> satellites) throws ConflictException {
+	public void validateSatelites(List<Satellite> satellites) {
 		if (satellites == null) {
 			throw new ConflictException("Error. La cantidad de satelites es vacia");
 		}

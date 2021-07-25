@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import com.kbaez.challange.dto.PositionMessageResponse;
 import com.kbaez.challange.dto.request.TopSecretRequest;
 import com.kbaez.challange.dto.request.TopSecretSplitRequest;
-import com.kbaez.challange.exception.NotFoundException;
+import com.kbaez.challange.exception.SatelliteNotFoundException;
 import com.kbaez.challange.model.Location;
 import com.kbaez.challange.model.Satellite;
 import com.kbaez.challange.service.IntelligenceService;
@@ -78,7 +78,7 @@ public class ChallangeControllerTest {
 
 		doReturn(expectedPositionMessageResponse).when(intelligenceService).saveSatellite(SATO, topSecretSplitRequest);
 		
-		mockMvc.perform(post("/topsecret_split/{satellite_name}", "sato")
+		mockMvc.perform(post("/topsecret_split/{satellite_name}", SATO)
 				.content(objectMapper.writeValueAsString(topSecretSplitRequest))
 				.contentType("application/json"))
 				.andExpect(status().isOk());
@@ -89,16 +89,17 @@ public class ChallangeControllerTest {
     	
     	TopSecretSplitRequest topSecretSplitRequest = buildTopSecretSplitRequest();
 
-        NotFoundException expectedException = new NotFoundException(String.format("The satellite with name %s does not exists", SATO_FAIL));
+        SatelliteNotFoundException expectedException = new SatelliteNotFoundException(String.format("The satellite with name %s does not exists", SATO_FAIL));
 
         doThrow(expectedException).when(intelligenceService).saveSatellite(SATO_FAIL, topSecretSplitRequest);
 
 		mockMvc.perform(post("/topsecret_split/{satellite_name}", SATO_FAIL)
 				.content(objectMapper.writeValueAsString(topSecretSplitRequest))
 				.contentType("application/json"))
-                .andExpect(jsonPath("$.message").value(expectedException.getMessage()))
-                .andExpect(jsonPath("$.status").value("404"))
-        ;
+				.andExpect(status().isNotFound())
+				.andExpect(jsonPath("$.error").value("Satellite not found Exception"))
+				.andExpect(jsonPath("$.message").value(expectedException.getMessage()))
+				.andExpect(jsonPath("$.status").value("404"));
     }
 
 	private TopSecretSplitRequest buildTopSecretSplitRequest() {

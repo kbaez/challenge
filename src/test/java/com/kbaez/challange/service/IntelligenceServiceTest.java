@@ -17,7 +17,7 @@ import com.kbaez.challange.dto.request.TopSecretRequest;
 import com.kbaez.challange.dto.request.TopSecretSplitRequest;
 import com.kbaez.challange.exception.ConflictException;
 import com.kbaez.challange.exception.NoContentException;
-import com.kbaez.challange.exception.NotFoundException;
+import com.kbaez.challange.exception.SatelliteNotFoundException;
 import com.kbaez.challange.model.Location;
 import com.kbaez.challange.model.Satellite;
 import com.kbaez.challange.repository.SatelliteRepository;
@@ -43,7 +43,7 @@ public class IntelligenceServiceTest {
 	}
 
 	@Test
-	void testGetLocationAndMessageThenReturnLocationAndMessage() throws NotFoundException, ConflictException {
+	void testGetLocationAndMessageThenReturnLocationAndMessage() throws SatelliteNotFoundException, ConflictException {
 		PositionMessageResponse positionMessageResponse = buildPositionMessageResponse(-100.0f, 75.5f,
 				"este es un mensaje secreto");
 		Mockito.when(intelligenceService.getLocationAndMessage(Mockito.any(TopSecretRequest.class)))
@@ -53,7 +53,7 @@ public class IntelligenceServiceTest {
 	}
 
 	@Test
-	void testSaveSatelliteThenReturnSatellite() throws NotFoundException, ConflictException, NoContentException {
+	void testSaveSatelliteThenReturnSatellite() throws SatelliteNotFoundException, ConflictException, NoContentException {
 		TopSecretSplitRequest topSecretSplitRequest = buildTopSecretSplitRequest();
 		PositionMessageResponse positionMessageResponse = buildPositionMessageResponse(500f, 100f, "este un");
 		Mockito.when(intelligenceService.saveSatellite(SATO, Mockito.any(TopSecretSplitRequest.class)))
