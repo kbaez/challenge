@@ -1,6 +1,7 @@
 package com.kbaez.challange.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.math3.fitting.leastsquares.LevenbergMarquardtOptimizer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,6 @@ import org.springframework.stereotype.Service;
 import com.kbaez.challange.dto.PositionMessageResponse;
 import com.kbaez.challange.dto.request.TopSecretRequest;
 import com.kbaez.challange.dto.request.TopSecretSplitRequest;
-import com.kbaez.challange.exception.ConflictException;
-import com.kbaez.challange.exception.NoContentException;
 import com.kbaez.challange.exception.SatelliteNotFoundException;
 import com.kbaez.challange.model.Location;
 import com.kbaez.challange.model.Satellite;
@@ -19,7 +18,6 @@ import com.kbaez.challange.service.SatelliteService;
 import com.kbaez.challange.utils.LocationUtil;
 import com.lemmingapex.trilateration.NonLinearLeastSquaresSolver;
 import com.lemmingapex.trilateration.TrilaterationFunction;
-import java.util.stream.Collectors;
 
 @Service
 public class IntelligenceServiceImpl implements IntelligenceService {
@@ -30,12 +28,17 @@ public class IntelligenceServiceImpl implements IntelligenceService {
 	private SatelliteService satelliteService;
 
 	@Autowired
+	private LocationUtil locationUtil;
+
+	@Autowired
 	public IntelligenceServiceImpl(SatelliteService satelliteServiceTest) {
 		this.satelliteService = satelliteServiceTest;
 	}
 
 	@Override
 	public PositionMessageResponse getLocationAndMessage(TopSecretRequest request) {
+		locationUtil.validateSatelites(request.getSatellites());
+		
 		int i = 0;
 		float[] distances = new float[request.getSatellites().size()];
 
@@ -43,6 +46,8 @@ public class IntelligenceServiceImpl implements IntelligenceService {
 			distances[i] = s.getDistance();
 			i++;
 		}
+
+		locationUtil.validateDistances(distances);
 
 		float[] points = getLocation(distances);
 		Location location = new Location(points[0], points[1]);
@@ -75,29 +80,29 @@ public class IntelligenceServiceImpl implements IntelligenceService {
 	public PositionMessageResponse getLocationAndMessageSplit() {
 
 		List<Satellite> listSatellites = satelliteService.getAllSatellites();
+		
+		locationUtil.validateSatelites(listSatellites);
 
-		if (listSatellites.size() > 2) {
-			int i = 0;
-			float[] distances = new float[listSatellites.size()];
+		int i = 0;
+		float[] distances = new float[listSatellites.size()];
 
-			for (Satellite s : listSatellites) {
-				distances[i] = s.getDistance();
-				i++;
-			}
-
-			float[] points = getLocation(distances);
-			Location location = new Location(points[0], points[1]);
-
-			List<String[]> messages = listSatellites.stream().map(s -> s.getMessage()).collect(Collectors.toList());
-			String message = getMessage(messages);
-			PositionMessageResponse positionMessageResponse = new PositionMessageResponse();
-			positionMessageResponse.setLocation(location);
-			positionMessageResponse.setMessage(message);
-
-			return positionMessageResponse;
-		} else {
-			throw new SatelliteNotFoundException("Error. ");
+		for (Satellite s : listSatellites) {
+			distances[i] = s.getDistance();
+			i++;
 		}
+		
+		locationUtil.validateDistances(distances);
+
+		float[] points = getLocation(distances);
+		Location location = new Location(points[0], points[1]);
+
+		List<String[]> messages = listSatellites.stream().map(s -> s.getMessage()).collect(Collectors.toList());
+		String message = getMessage(messages);
+		PositionMessageResponse positionMessageResponse = new PositionMessageResponse();
+		positionMessageResponse.setLocation(location);
+		positionMessageResponse.setMessage(message);
+
+		return positionMessageResponse;
 
 	}
 

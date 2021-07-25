@@ -12,19 +12,19 @@ public class LocationUtil {
 
 	public void validateDistances(float[] distances) {
 		if (distances == null) {
-			throw new ConflictException("Error. La cantidad de distancias es vacia");
+			throw new ConflictException("Error. Quantity of distances is empty.");
 		}
 		if (distances.length < 3) {
-			throw new ConflictException("Error. La cantidad de distancias es menor a 3. No se puede realizar la trilateracion para ubicar a la nave");
+			throw new ConflictException("Error. Quantity of distances is less than 3. It can't be done true-range multilateration for location.");
 		}
 	}
 
 	public void validateSatelites(List<Satellite> satellites) {
 		if (satellites == null) {
-			throw new ConflictException("Error. La cantidad de satelites es vacia");
+			throw new ConflictException("Error. Quantity of satellites is empty.");
 		}
 		if (satellites.size() < 3) {
-			throw new ConflictException("Error. La cantidad de satelites es menor a 3. No se puede realizar la trilateracion para ubicar a la nave");
+			throw new ConflictException("Error. Quantity of satellites is less than 3. It can't be done true-range multilateration for location.");
 		}
 	}
 

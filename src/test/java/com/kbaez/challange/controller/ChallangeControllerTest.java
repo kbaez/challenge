@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import com.kbaez.challange.dto.PositionMessageResponse;
 import com.kbaez.challange.dto.request.TopSecretRequest;
 import com.kbaez.challange.dto.request.TopSecretSplitRequest;
+import com.kbaez.challange.exception.ConflictException;
 import com.kbaez.challange.exception.SatelliteNotFoundException;
 import com.kbaez.challange.model.Location;
 import com.kbaez.challange.model.Satellite;
@@ -70,6 +71,24 @@ public class ChallangeControllerTest {
 	}
 	
 	@Test
+	void testGetLocationAndMessageReturnsConflictException() throws Exception {
+
+		TopSecretRequest topSecretRequest = buildTopSecretRequestWrong();
+		
+		ConflictException conflictException = new ConflictException(String.format("Error. Quantity of satellites is less than 3. It can't be done true-range multilateration for location."));
+
+        doThrow(conflictException).when(intelligenceService).getLocationAndMessage(topSecretRequest);
+
+		mockMvc.perform(post("/topsecret")
+				.content(objectMapper.writeValueAsString(topSecretRequest))
+				.contentType("application/json"))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.error").value("Quantity error exception"))
+				.andExpect(jsonPath("$.message").value(conflictException.getMessage()))
+				.andExpect(jsonPath("$.status").value("400"));
+	}
+
+	@Test
 	void testGetLocationAndMessageSplitReturnsPositionMessageResponse() throws Exception {
 
 		PositionMessageResponse expectedPositionMessageResponse = buildPositionMessageResponse();
@@ -97,7 +116,7 @@ public class ChallangeControllerTest {
 				.content(objectMapper.writeValueAsString(topSecretSplitRequest))
 				.contentType("application/json"))
 				.andExpect(status().isNotFound())
-				.andExpect(jsonPath("$.error").value("Satellite not found Exception"))
+				.andExpect(jsonPath("$.error").value("Satellite not found exception"))
 				.andExpect(jsonPath("$.message").value(expectedException.getMessage()))
 				.andExpect(jsonPath("$.status").value("404"));
     }
@@ -121,6 +140,21 @@ public class ChallangeControllerTest {
 	private TopSecretRequest buildTopSecretRequest() {
 		TopSecretRequest topSecretRequest = new TopSecretRequest();
 		topSecretRequest.setSatellites(getListSatellite());
+		return topSecretRequest;
+	}
+	
+	private TopSecretRequest buildTopSecretRequestWrong() {
+		TopSecretRequest topSecretRequest = new TopSecretRequest();
+		
+		List<Satellite> list = new ArrayList<>();
+		Satellite s1 = new Satellite();
+		s1.setDistance(100.0f);
+		s1.setX(-500f);
+		s1.setY(-200f);
+		s1.setMessage(new String[] { "este", "", "", "mensaje", "" });
+		s1.setName(KENOBI);
+
+		topSecretRequest.setSatellites(list);
 		return topSecretRequest;
 	}
 	
