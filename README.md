@@ -94,11 +94,11 @@ Todos los endpoints y ejemplos de request estan en esta coleccion postman:
 ### Guardar información del satelite
 `POST` http://<i></i>localhost:8080/topsecret_split/{satellite_name}
 
-`BODY`
+##### `BODY`
 ```json
 {
-			"distance": 100.0,
-			"message": ["este","","","mensaje",""]
+     "distance": 100.0,
+     "message": ["este","","","mensaje",""]
 }
 ```
 
@@ -120,7 +120,7 @@ Todos los endpoints y ejemplos de request estan en esta coleccion postman:
 
 #### Success Response
 **Status**: `200 OK`
-```
+```json
 {
     "position": {
         "x": -58.31525,
@@ -129,9 +129,7 @@ Todos los endpoints y ejemplos de request estan en esta coleccion postman:
     "message": "este es un mensaje secreto"
 }
 ```
-#### Error Response Format
 
-```
 #### Error Response Format
 **Status**: `400 Bad request`
 ```json
