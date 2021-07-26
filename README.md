@@ -11,10 +11,10 @@ https://github.com/lemmingapex/trilateration
 ## Pre-requisitos:
 
     Maven
-    Java JDK 1.8
+    Java JDK 1.11
 
 ## Configure su proyecto
-Clonar el repositorio desde Github, sitúese en el directorio root del proyecto y ejecute el siguiente comando 
+Clonar el repositorio desde Github `git clone https://github.com/kbaez/challenge.git`, sitúese en el directorio root del proyecto y ejecute el siguiente comando 
 desde la consola `mvn clean install` para poder buildear el proyecto y descargar todas sus dependencias.
 A continuación, puede ejecutar la aplicación con el comando `mvn spring-boot:run`
 
