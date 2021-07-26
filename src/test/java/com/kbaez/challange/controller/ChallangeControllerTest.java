@@ -3,6 +3,7 @@ package com.kbaez.challange.controller;
 import static org.hamcrest.CoreMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -123,6 +124,36 @@ public class ChallangeControllerTest {
 				.andExpect(jsonPath("$.status").value("404"));
     }
 
+    @Test
+	void testGetLocationAndMessageSplitReturnsLocationAndMessage() throws Exception {
+
+		PositionMessageResponse expectedPositionMessageResponse = buildPositionMessageResponse();
+
+		doReturn(expectedPositionMessageResponse).when(intelligenceService).getLocationAndMessageSplit();
+		
+		mockMvc.perform(get("/topsecret_split")
+				.contentType("application/json"))
+				.andExpect(status().isOk())
+                .andExpect(jsonPath("$.position").value(expectedPositionMessageResponse.getLocation()))
+                .andExpect(jsonPath("$.message").value(expectedPositionMessageResponse.getMessage()));
+
+	}
+    
+    @Test
+	void testGetLocationAndMessageSplitReturnsConflictException() throws Exception {
+
+		ConflictException conflictException = new ConflictException(String.format("Error. Quantity of satellites is less than 3. It can't be done true-range multilateration for location."));
+
+        doThrow(conflictException).when(intelligenceService).getLocationAndMessageSplit();
+
+        mockMvc.perform(get("/topsecret_split")
+				.contentType("application/json"))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.error").value("Quantity error exception"))
+				.andExpect(jsonPath("$.message").value(conflictException.getMessage()))
+				.andExpect(jsonPath("$.status").value("400"));
+	}
+    
 	private TopSecretSplitRequest buildTopSecretSplitRequest() {
 		TopSecretSplitRequest topSecretSplitRequest = new TopSecretSplitRequest();
 		topSecretSplitRequest.setDistance(100.0f);
