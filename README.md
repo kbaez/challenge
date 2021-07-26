@@ -1,4 +1,4 @@
-# API quasar - Spring Boot 
+# API quasar
 ![technology Java](https://img.shields.io/badge/technology-java-blue.svg)
 
 API quasar expone servicios para calcular la ubicación de una nave, según la posición de 3 satélites 
@@ -39,7 +39,7 @@ Los satelites pre-cargados estan almacenados en la BD por el siguiente archivo s
 
 Todos los endpoints y ejemplos de request estan en esta coleccion postman:
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://www.getpostman.com/collections/15ce7eb025604c93d2e1)
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/15ce7eb025604c93d2e1)
 
 ## Uso de la API
 
