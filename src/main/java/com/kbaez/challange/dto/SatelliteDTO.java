@@ -1,12 +1,6 @@
 package com.kbaez.challange.dto;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.validation.constraints.PositiveOrZero;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.kbaez.challange.model.Location;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

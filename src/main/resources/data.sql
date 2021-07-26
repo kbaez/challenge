@@ -9,6 +9,6 @@ CREATE TABLE satellites (
 		      y DOUBLE
 );
 
-INSERT INTO satellites (name, distance, message, x, y) values ('kenobi', 0,'este,,,mensaje,', -500, -200);
-INSERT INTO satellites (name, distance, message, x, y) values ('skywalker', 0,',es,,,secreto', 100, -100);
-INSERT INTO satellites (name, distance, message, x, y) values ('sato', 0,'este,,un,,', 500, 100);
+INSERT INTO satellites (name, distance, message, x, y) values ('kenobi', 0,'este, , ,mensaje, ', -500, -200);
+INSERT INTO satellites (name, distance, message, x, y) values ('skywalker', 0,' ,es, , ,secreto', 100, -100);
+INSERT INTO satellites (name, distance, message, x, y) values ('sato', 0,'este, ,un, , ', 500, 100);

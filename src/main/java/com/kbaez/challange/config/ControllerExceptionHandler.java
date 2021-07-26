@@ -14,8 +14,6 @@ public class ControllerExceptionHandler {
 
 	@ExceptionHandler(value = { SatelliteNotFoundException.class })
 	public ResponseEntity<ApiError> satelliteNotFoundException(SatelliteNotFoundException ex) {
-		// LOGGER.warn(String.format("Exception %s was thrown with message: %s",
-		// ex.getClass(), ex.getMessage()));
 		ApiError apiError = new ApiError("Satellite not found exception", ex.getMessage(),
 				HttpStatus.NOT_FOUND.value());
 		return ResponseEntity.status(apiError.getStatus()).body(apiError);
@@ -23,8 +21,6 @@ public class ControllerExceptionHandler {
 	
 	@ExceptionHandler(value = { ConflictException.class })
 	public ResponseEntity<ApiError> conflictException(ConflictException ex) {
-		// LOGGER.warn(String.format("Exception %s was thrown with message: %s",
-		// ex.getClass(), ex.getMessage()));
 		ApiError apiError = new ApiError("Quantity error exception", ex.getMessage(),
 				HttpStatus.BAD_REQUEST.value());
 		return ResponseEntity.status(apiError.getStatus()).body(apiError);
@@ -32,8 +28,6 @@ public class ControllerExceptionHandler {
 
 	@ExceptionHandler(value = { Exception.class })
 	public ResponseEntity<ApiError> handleUnknownException(HttpMessageNotReadableException ex) {
-		// LOGGER.warn(String.format("Exception %s was thrown with message: %s",
-		// ex.getClass(), ex.getMessage()));
 		ApiError apiError = new ApiError("Internal Error", ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
 		return ResponseEntity.status(apiError.getStatus()).body(apiError);
 	}

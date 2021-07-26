@@ -1,12 +1,10 @@
 package com.kbaez.challange.service.impl;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kbaez.challange.exception.NoContentException;
 import com.kbaez.challange.exception.SatelliteNotFoundException;
 import com.kbaez.challange.model.Satellite;
 import com.kbaez.challange.repository.SatelliteRepository;

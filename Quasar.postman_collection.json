@@ -1,0 +1,138 @@
+{
+	"info": {
+		"_postman_id": "d863418f-669f-4585-9199-746f726421fa",
+		"name": "Quasar",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Topsecret",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"satellites\": [\r\n\t\t{\r\n\t\t\t\"name\":\"kenobi\",\r\n\t\t\t\"distance\": 100.0,\r\n\t\t\t\"message\": [\"este\",\"\",\"\",\"mensaje\",\"\"]\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"name\":\"skywalker\",\r\n\t\t\t\"distance\": 115.5,\r\n\t\t\t\"message\": [\"\",\"es\",\"\",\"\",\"secreto\"]\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"name\":\"sato\",\r\n\t\t\t\"distance\": 142.7,\r\n\t\t\t\"message\": [\"este\",\"\",\"un\",\"\",\"\"]\r\n\t\t}\r\n\t]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/topsecret",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"topsecret"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Topsecret_split/kenobi",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\t\t\"distance\": 100.0,\r\n\t\t\t\"message\": [\"este\",\"\",\"\",\"mensaje\",\"\"]\r\n\t\t},",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/topsecret_split/kenobi",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"topsecret_split",
+						"kenobi"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Topsecret_split/sato",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\t\t\"distance\": 142.7,\r\n\t\t\t\"message\": [\"este\",\"\",\"un\",\"\",\"\"]\r\n\t\t}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/topsecret_split/sato",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"topsecret_split",
+						"sato"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Topsecret_split/skywalker",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\t\t\"distance\": 115.5,\r\n\t\t\t\"message\": [\"\",\"es\",\"\",\"\",\"secreto\"]\r\n\t\t}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/topsecret_split/skywalker",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"topsecret_split",
+						"skywalker"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Topsecret_split",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/topsecret_split",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"topsecret_split"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

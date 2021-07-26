@@ -23,7 +23,7 @@ import com.lemmingapex.trilateration.TrilaterationFunction;
 @Service
 public class IntelligenceServiceImpl implements IntelligenceService {
 
-	private static final String ESPACIO = " ";
+	private static final String SPACE = " ";
 
 	@Autowired
 	private SatelliteService satelliteService;
@@ -120,23 +120,23 @@ public class IntelligenceServiceImpl implements IntelligenceService {
 
 		for (int i = 0; i < messageLength; i++) {
 
-			if (message1[i] != null && message1[i].isEmpty() == false && message1[i].equals(ESPACIO) == false) {
+			if (message1[i] != null && message1[i].isEmpty() == false && message1[i].equals(SPACE) == false) {
 				if (isLastPartOfMessage(messageLength, i)) {
 					completedMessage.append(message1[i]);
 				} else {
-					completedMessage.append(message1[i]).append(ESPACIO);
+					completedMessage.append(message1[i]).append(SPACE);
 				}
-			} else if (message2[i] != null && message2[i].isEmpty() == false && message2[i].equals(ESPACIO) == false) {
+			} else if (message2[i] != null && message2[i].isEmpty() == false && message2[i].equals(SPACE) == false) {
 				if (isLastPartOfMessage(messageLength, i)) {
 					completedMessage.append(message2[i]);
 				} else {
-					completedMessage.append(message2[i]).append(ESPACIO);
+					completedMessage.append(message2[i]).append(SPACE);
 				}
-			} else if (message3[i] != null && message3[i].isEmpty() == false && message3[i].equals(ESPACIO) == false) {
+			} else if (message3[i] != null && message3[i].isEmpty() == false && message3[i].equals(SPACE) == false) {
 				if (isLastPartOfMessage(messageLength, i)) {
 					completedMessage.append(message3[i]);
 				} else {
-					completedMessage.append(message3[i]).append(ESPACIO);
+					completedMessage.append(message3[i]).append(SPACE);
 				}
 			} else {
 				throw new SatelliteNotFoundException(
