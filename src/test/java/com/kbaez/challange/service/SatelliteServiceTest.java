@@ -26,9 +26,9 @@ public class SatelliteServiceTest {
 	
 	@Test
 	public void testGetByNameThenReturnSameSatellite(){
-		Optional<Satellite> expectedSatelite = Optional.of(buildNewSatellite());
-		Mockito.when(satelliteRepository.findByName(Mockito.any())).thenReturn(expectedSatelite);
-		Satellite response = satelliteService.getSatelliteByName("Sato");
+		Satellite expectedSatelite = buildNewSatellite();
+		Mockito.when(satelliteRepository.findByName(Mockito.any())).thenReturn(Optional.of(expectedSatelite));
+		Satellite response = satelliteService.getSatelliteByName("sato");
 		assertEquals(expectedSatelite, response);
 	}
 
@@ -42,11 +42,11 @@ public class SatelliteServiceTest {
 
 	private Satellite buildNewSatellite() {
 		Satellite expectedSatelite = new Satellite();
-		expectedSatelite.setName("Sato");
+		expectedSatelite.setName("sato");
 		expectedSatelite.setX(500f);
 		expectedSatelite.setY(100f);
-		expectedSatelite.setMessage(new String[]{"","","es","","mensaje"});
-		expectedSatelite.setDistance(null);
+		expectedSatelite.setMessage("este,,un,,");
+		expectedSatelite.setDistance(142.7f);
 		return expectedSatelite;
 	}
 }

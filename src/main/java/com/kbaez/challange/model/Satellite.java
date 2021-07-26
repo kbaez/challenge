@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.PositiveOrZero;
 
+import org.hibernate.annotations.Type;
+
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -34,7 +36,7 @@ public class Satellite {
 
 	private String name;
 
-	private String[] message;
+	private String message;
 
 	private Float x;
 

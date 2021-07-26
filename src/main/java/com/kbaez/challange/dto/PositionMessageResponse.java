@@ -5,6 +5,7 @@ import com.kbaez.challange.model.Location;
 import com.kbaez.challange.model.Satellite;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +14,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class PositionMessageResponse {
 
 		@JsonProperty("position")

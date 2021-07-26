@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.kbaez.challange.dto.SatelliteDTO;
 import com.kbaez.challange.exception.ConflictException;
 import com.kbaez.challange.model.Satellite;
 
@@ -20,6 +21,15 @@ public class LocationUtil {
 	}
 
 	public void validateSatelites(List<Satellite> satellites) {
+		if (satellites == null) {
+			throw new ConflictException("Error. Quantity of satellites is empty.");
+		}
+		if (satellites.size() < 3) {
+			throw new ConflictException("Error. Quantity of satellites is less than 3. It can't be done true-range multilateration for location.");
+		}
+	}
+	
+	public void validateSatelitesDTO(List<SatelliteDTO> satellites) {
 		if (satellites == null) {
 			throw new ConflictException("Error. Quantity of satellites is empty.");
 		}

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kbaez.challange.dto.PositionMessageResponse;
+import com.kbaez.challange.dto.SatelliteDTO;
 import com.kbaez.challange.dto.request.TopSecretRequest;
 import com.kbaez.challange.dto.request.TopSecretSplitRequest;
 import com.kbaez.challange.exception.SatelliteNotFoundException;
@@ -31,18 +32,19 @@ public class IntelligenceServiceImpl implements IntelligenceService {
 	private LocationUtil locationUtil;
 
 	@Autowired
-	public IntelligenceServiceImpl(SatelliteService satelliteServiceTest) {
-		this.satelliteService = satelliteServiceTest;
+	public IntelligenceServiceImpl(SatelliteService satelliteService2, LocationUtil locationUtil2) {
+		this.satelliteService = satelliteService2;
+		this.locationUtil = locationUtil2;
 	}
 
 	@Override
 	public PositionMessageResponse getLocationAndMessage(TopSecretRequest request) {
-		locationUtil.validateSatelites(request.getSatellites());
+		locationUtil.validateSatelitesDTO(request.getSatellites());
 		
 		int i = 0;
 		float[] distances = new float[request.getSatellites().size()];
 
-		for (Satellite s : request.getSatellites()) {
+		for (SatelliteDTO s : request.getSatellites()) {
 			distances[i] = s.getDistance();
 			i++;
 		}
@@ -52,8 +54,8 @@ public class IntelligenceServiceImpl implements IntelligenceService {
 		float[] points = getLocation(distances);
 		Location location = new Location(points[0], points[1]);
 
-		List<String[]> messages = request.getSatellites().stream().map(s -> s.getMessage())
-				.collect(Collectors.toList());
+		List<String[]> messages = request.getSatellites().stream().map(s -> s.getMessage()).collect(Collectors.toList());
+		
 		String message = getMessage(messages);
 		PositionMessageResponse positionMessageResponse = new PositionMessageResponse();
 		positionMessageResponse.setLocation(location);
@@ -66,12 +68,12 @@ public class IntelligenceServiceImpl implements IntelligenceService {
 	public PositionMessageResponse saveSatellite(String satelliteName, TopSecretSplitRequest request) {
 		Satellite satellite = satelliteService.getSatelliteByName(satelliteName);
 		satellite.setDistance(request.getDistance());
-		satellite.setMessage(request.getMessage());
+		satellite.setMessage(String.join(", ",request.getMessage()));
 
 		Satellite satelliteSaved = satelliteService.saveOrUpdateSatellite(satellite);
 		PositionMessageResponse positionMessageResponse = new PositionMessageResponse();
 		positionMessageResponse.setLocation(new Location(satelliteSaved.getX(), satelliteSaved.getY()));
-		positionMessageResponse.setMessage(String.join(" ", satelliteSaved.getMessage()));
+		positionMessageResponse.setMessage(satelliteSaved.getMessage());
 
 		return positionMessageResponse;
 	}
@@ -96,7 +98,7 @@ public class IntelligenceServiceImpl implements IntelligenceService {
 		float[] points = getLocation(distances);
 		Location location = new Location(points[0], points[1]);
 
-		List<String[]> messages = listSatellites.stream().map(s -> s.getMessage()).collect(Collectors.toList());
+		List<String[]> messages = listSatellites.stream().map(s -> s.getMessage().split(",")).collect(Collectors.toList());
 		String message = getMessage(messages);
 		PositionMessageResponse positionMessageResponse = new PositionMessageResponse();
 		positionMessageResponse.setLocation(location);
@@ -138,7 +140,7 @@ public class IntelligenceServiceImpl implements IntelligenceService {
 				}
 			} else {
 				throw new SatelliteNotFoundException(
-						"Error. No se ha podido decodificar el mensaje porque una parte del mensaje llego vacia a todos los satelites");
+						"Error. It could't be built the message because some parts are emptys in all satellites.");
 			}
 		}
 
